@@ -7,6 +7,7 @@ from dataloader import Mydataset, get_train_test_clip
 from sklearn.metrics import f1_score, recall_score, precision_score
 from sklearn.preprocessing import StandardScaler
 from scipy.io import savemat
+from utils import EarlyStopping_gan
 scaler = StandardScaler()
 
 def traink(model, train_loader, test_loader, learning_rate, BATCHSIZE, TOTAL_EPOCHS, sub, clip_num):
@@ -26,8 +27,8 @@ def traink(model, train_loader, test_loader, learning_rate, BATCHSIZE, TOTAL_EPO
     RECALL_score = []
     PRE_score = []
 
-    # pretrained_params = torch.load(config.save_index_1 + '/checkpoint/subject_dependent/checkpoint_gan_dep_' + sub + '_' + 'clip' + str(clip_num) + '.pt')
-    # model.load_state_dict(pretrained_params, strict=False)
+    pretrained_params = torch.load(config.save_index_1 + '/checkpoint/subject_dependent/checkpoint_gan_dep_' + sub + '_' + 'clip' + str(clip_num) + '.pt')
+    model.load_state_dict(pretrained_params, strict=False)
 
     for epoch in range(TOTAL_EPOCHS):     
         model.train()
@@ -77,7 +78,6 @@ def traink(model, train_loader, test_loader, learning_rate, BATCHSIZE, TOTAL_EPO
                 total_test += predicted_shot_two.size(0)
                 test_correct1 = (predicted_shot_two.argmax(1) == label).sum().item()
                 correct_test += test_correct1
-
                 label_test = torch.cat((label_test, label.detach().cpu()))
                 predicted_shot_two_test = torch.cat((predicted_shot_two_test, predicted_shot_two.argmax(1).detach().cpu()))
      

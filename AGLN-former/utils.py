@@ -7,6 +7,7 @@ from dataloader import get_file_path
 import scipy.io as scio
 from sklearn.preprocessing import StandardScaler
 import scipy.io
+import config as config
 scaler = StandardScaler()
 
 def knn_value(x):

@@ -7,7 +7,7 @@ from dataloader import Mydataset, get_train_test_clip
 from utils import EarlyStopping_gan
 from torch.autograd import Variable
 from sklearn.preprocessing import StandardScaler
-
+import config
 BATCHSIZE = 8
 device = config.device
 scaler = StandardScaler()
@@ -120,7 +120,7 @@ for sub in config.subjectList:
             print('[epoch %d][d_loss %.4f] [g_loss %.4f] [mse_loss %.4f]' % (epoch,
                     av_discriminator_loss.item(), av_generator_loss.item(), av_mse_loss.item()))
             pretrain_gan_loss.append(av_discriminator_loss.item())
-            # early_stopping_gan(av_mse_loss, generator)
+            early_stopping_gan(av_mse_loss, generator)
 
 
 
